@@ -2,7 +2,6 @@ from bisect import bisect_left
 class Solution:
     def twoSum(self, numbers: List[int], target: int) -> List[int]:
         length = len(numbers)
-        result = []
         for i in range(length):
             to_find = target - numbers[i]
             index = binary_search(numbers, to_find)
