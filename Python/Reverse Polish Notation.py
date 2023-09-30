@@ -1,27 +1,18 @@
-# when encountering number, push
-# when encounter operator, pop 2, apply operator, push result
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
+        print(tokens)
+        operators = {
+            '+': lambda x, y: x + y,
+            '-': lambda x, y: x - y,
+            '*': lambda x, y: x * y,
+            '/': lambda x,y: int(x / y)
+        }
         stack = deque()
-        for c in tokens:
-            if not is_operator(c):
-                stack.append(int(c))
+        for i, token in enumerate(tokens):
+            if token not in operators:
+                stack.append(int(token))
             else:
-                num2 = stack.pop()
-                num1 = stack.pop()
-                stack.append(operate(num1, num2, c))
+                y = stack.pop()
+                x = stack.pop()
+                stack.append(operators[token](int(x), int(y)))
         return stack.pop()
-
-
-def operate(num1: int, num2: int, op: chr):
-    if op == '+':
-        return num1 + num2
-    elif op == '-':
-        return num1 - num2
-    elif op == '*':
-        return num1 * num2
-    elif op == '/' and num2 != 0:
-        return int(num1/num2)
-
-def is_operator(c):
-    return c == '+' or c == '-' or c == '*' or c == '/'
